@@ -19,3 +19,5 @@ x = 3
 y = 4
 
 print(x+y,x-y,x*y,x/y)
+
+print("잘 되나?")
