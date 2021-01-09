@@ -23,19 +23,22 @@ X_24 = np.array([])
 Y_24 = np.array([])
 for i in range(1801):
     if np.sqrt(3)*np.tan(theta[i]/2) > np.cos(eta[i]):
-     x_24 = np.sqrt(3)*R*np.cos(eta[i])*np.cos(theta[i]/2)
-     X_24 = np.append(X_24,x_24)
+        x_24 = np.sqrt(3)*R*np.cos(eta[i])*np.cos(theta[i]/2)
+        X_24 = np.append(X_24,x_24)
     else:
-     x_24 = R/2*(np.sqrt(3)*np.cos(eta[i])*np.cos(theta[i]/2)+3*np.sin(theta[i]/2))
-     X_24 = np.append(X_24,x_24)
+        x_24 = R/2*(np.sqrt(3)*np.cos(eta[i])*np.cos(theta[i]/2)+3*np.sin(theta[i]/2))
+        X_24 = np.append(X_24,x_24)
 
 print(X_24)
 print(X_24.shape)
 
-# if np.sqrt(3)*np.tan(theta/2) > np.cos(eta):
-#     y_24 = R*np.cos(eta)*np.cos(theta/2)
-# else:
-#     y_24 = R/2*(np.cos(eta)*np.cos(theta/2)+np.sqrt(3)*np.sin(theta/2))
+for i in range(1801):
+    if np.sqrt(3)*np.tan(theta[i]/2) > np.cos(eta[i]):
+        y_24 = R*np.cos(eta[i])*np.cos(theta[i]/2)
+        Y_24 = np.append(Y_24, y_24)
+    else:
+        y_24 = R/2*(np.cos(eta[i])*np.cos(theta[i]/2)+np.sqrt(3)*np.sin(theta[i]/2))
+        Y_24 = np.append(Y_24, y_24)
 
 z_24 = R*np.cos(theta/2)*np.sin(eta)
 
