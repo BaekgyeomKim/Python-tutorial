@@ -19,15 +19,18 @@ eta = np.arccos((np.sqrt(2*(1-np.cos(alpha_2)))-np.sin(theta/2))/(np.sqrt(3)*np.
 print(eta.shape)
 
 ## coordinate of the point 24
-x_24 = np.array([])
-y_24 = np.array([])
+X_24 = np.array([])
+Y_24 = np.array([])
+for i in range(1801):
+    if np.sqrt(3)*np.tan(theta[i]/2) > np.cos(eta[i]):
+     x_24 = np.sqrt(3)*R*np.cos(eta[i])*np.cos(theta[i]/2)
+     X_24 = np.append(X_24,x_24)
+    else:
+     x_24 = R/2*(np.sqrt(3)*np.cos(eta[i])*np.cos(theta[i]/2)+3*np.sin(theta[i]/2))
+     X_24 = np.append(X_24,x_24)
 
-if np.sqrt(3)*np.tan(theta/2) > np.cos(eta):
-    x_24 = np.sqrt(3)*R*np.cos(eta)*np.cos(theta/2)
-else:
-    x_24 = R/2*(np.sqrt(3)*np.cos(eta)*np.cos(theta/2)+3*np.sin(theta/2))
-
-print(x_24)
+print(X_24)
+print(X_24.shape)
 
 # if np.sqrt(3)*np.tan(theta/2) > np.cos(eta):
 #     y_24 = R*np.cos(eta)*np.cos(theta/2)
