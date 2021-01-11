@@ -25,10 +25,10 @@ Y_24 = np.array([])
 for i in range(1801):
     if np.sqrt(3)*np.tan(theta[i]/2) > np.cos(eta[i]):
         x_24 = np.sqrt(3)*R*np.cos(eta[i])*np.cos(theta[i]/2)
-        X_24 = np.append(X_24,x_24)
+        X_24 = np.append(X_24, x_24)
     else:
         x_24 = R/2*(np.sqrt(3)*np.cos(eta[i])*np.cos(theta[i]/2)+3*np.sin(theta[i]/2))
-        X_24 = np.append(X_24,x_24)
+        X_24 = np.append(X_24, x_24)
 
 print(X_24)
 print(X_24.shape)
@@ -45,6 +45,8 @@ print(Y_24.shape)
 
 Z_24 = R*np.cos(theta/2)*np.sin(eta)
 
+P_24 = np.array([X_24, Y_24, Z_24])
+print(P_24)
 
 ## coordinates of the point 14
 
@@ -83,17 +85,17 @@ print("Z_22 shape is", Z_22.shape)
 
 ## coordinates of the point 13
 
-X_13 = np.zeros((1801,))
+X_13 = np.zeros([1801,])
 print("X_13 shape is", X_13.shape)
 
-Y_13 = np.zeros((1801,))
-Z_13 = np.zeros((1801,))
+Y_13 = np.zeros([1801,])
+Z_13 = np.zeros([1801,])
 
 ## coordinates of the point 15
 
 X_15 = R*(np.sqrt(3)*np.cos(eta)*np.cos(theta/2)+np.sin(theta/2))
-Y_15 = np.zeros((1801,))
-Z_15 = np.zeros((1801,))
+Y_15 = np.zeros([1801,])
+Z_15 = np.zeros([1801,])
 
 ## coordinates of the point 23
 
@@ -101,6 +103,13 @@ X_23 = X_14
 Y_23 = np.sqrt(3)/6*X_15
 Z_23 = -np.sqrt(np.power(np.sqrt(3)/3*2*R, 2)-np.power(X_23, 2)-np.power(Y_23, 2))
 
+## estimating ellipsoid equation
+
+
+
+## distance from point 14 to point 22
+
+d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 
 ## plot
 plt.figure(1)
@@ -110,5 +119,8 @@ plt.plot(alpha_1, X_23)
 plt.figure(2)
 plt.plot(alpha_1, Z_24)
 plt.plot(alpha_1, Z_23)
+
+plt.figure(3)
+plt.plot(alpha_1, d)
 
 plt.show()
