@@ -1,10 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.tri as tri
 
 ## input variables
 alpha_1 = np.arange(0*np.pi, np.pi,  np.pi/1800)
 alpha_1 = np.append(alpha_1,np.pi)
+alpha_1d = np.rad2deg(alpha_1)
 alpha_2 = np.arange(2/3*np.pi , np.pi, np.pi/5400)
+alpha_2d = np.rad2deg(alpha_2)
 print(alpha_1.shape)
 print(alpha_2.shape)
 
@@ -13,9 +16,11 @@ print(type(R))
 
 y = np.sin(alpha_1)
 theta = 2*np.arcsin(np.sqrt((1/8)*(1-np.cos(alpha_1))))
+theta_d = np.rad2deg(theta)
 print(theta.shape)
 
 eta = np.arccos((np.sqrt(2*(1-np.cos(alpha_2)))-np.sin(theta/2))/(np.sqrt(3)*np.cos(theta/2)))
+eta_d = np.rad2deg(eta)
 print(eta.shape)
 
 ## coordinates of the point 24
@@ -97,30 +102,42 @@ X_15 = R*(np.sqrt(3)*np.cos(eta)*np.cos(theta/2)+np.sin(theta/2))
 Y_15 = np.zeros([1801,])
 Z_15 = np.zeros([1801,])
 
+## coordinates of the point 32
+
+X_32 = X_15/2
+Y_32 = np.sqrt(3)/2*X_15
+Z_32 = np.zeros([1801,])
+
 ## coordinates of the point 23
 
 X_23 = X_14
 Y_23 = np.sqrt(3)/6*X_15
 Z_23 = -np.sqrt(np.power(np.sqrt(3)/3*2*R, 2)-np.power(X_23, 2)-np.power(Y_23, 2))
 
-## estimating ellipsoid equation
-
-
-
 ## distance from point 14 to point 22
 
 d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 
+## equilateral triangle of side length 'd'
+
+Tri_d = np.array([])
+# np.array를 통해서 [x,y] 좌표가 묶인 array를 생성 후 plt.Polygon 함수를 통해 삼각형 그리기.
+
+## estimating ellipsoid equation
+
 ## plot
 plt.figure(1)
-plt.plot(alpha_1, X_24)
-plt.plot(alpha_1, X_23)
+plt.plot(alpha_1d, X_24)
+plt.plot(alpha_1d, X_23)
+plt.xlim(0,63)
+plt.ylim(20,32)
+plt.grid(True)
+plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+plt.ylabel('X position [mm]')
+plt.legend(['Point 24', 'Point 23'])
 
 plt.figure(2)
-plt.plot(alpha_1, Z_24)
-plt.plot(alpha_1, Z_23)
-
-plt.figure(3)
-plt.plot(alpha_1, d)
+plt.plot(alpha_1d, Z_24)
+plt.plot(alpha_1d, Z_23)
 
 plt.show()
