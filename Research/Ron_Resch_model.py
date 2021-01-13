@@ -1,6 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.tri as tri
+import matplotlib.tri as mtri
+from matplotlib import cm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
+
+## colormap setting
+viridis = cm.get_cmap('viridis', 18)
 
 ## input variables
 alpha_1 = np.arange(0*np.pi, np.pi,  np.pi/1800)
@@ -50,7 +55,7 @@ print(Y_24.shape)
 
 Z_24 = R*np.cos(theta/2)*np.sin(eta)
 
-P_24 = np.array([X_24, Y_24, Z_24])
+P_24 = np.transpose(np.array([X_24, Y_24, Z_24]))
 print(P_24)
 
 ## coordinates of the point 14
@@ -58,6 +63,8 @@ print(P_24)
 X_14 = R/2*(np.sqrt(3)*np.cos(eta)*np.cos(theta/2)+np.sin(theta/2))
 Y_14 = R/2*np.abs(np.sqrt(3)*np.sin(theta/2)-np.cos(eta)*np.cos(theta/2))
 Z_14 = Z_24
+
+P_14 = np.transpose(np.array([X_14, Y_14, Z_14]))
 
 ## coordinates of the point 22
 
@@ -88,6 +95,8 @@ Z_22 = Z_24
 
 print("Z_22 shape is", Z_22.shape)
 
+P_22 = np.transpose(np.array([X_22, Y_22, Z_22]))
+
 ## coordinates of the point 13
 
 X_13 = np.zeros([1801,])
@@ -96,11 +105,15 @@ print("X_13 shape is", X_13.shape)
 Y_13 = np.zeros([1801,])
 Z_13 = np.zeros([1801,])
 
+P_13 = np.transpose(np.array([X_13, Y_13, Z_13]))
+
 ## coordinates of the point 15
 
 X_15 = R*(np.sqrt(3)*np.cos(eta)*np.cos(theta/2)+np.sin(theta/2))
 Y_15 = np.zeros([1801,])
 Z_15 = np.zeros([1801,])
+
+P_15 = np.transpose(np.array([X_15, Y_15, Z_15]))
 
 ## coordinates of the point 32
 
@@ -108,11 +121,15 @@ X_32 = X_15/2
 Y_32 = np.sqrt(3)/2*X_15
 Z_32 = np.zeros([1801,])
 
+P_32 = np.transpose(np.array([X_32, Y_32, Z_32]))
+
 ## coordinates of the point 23
 
 X_23 = X_14
 Y_23 = np.sqrt(3)/6*X_15
 Z_23 = -np.sqrt(np.power(np.sqrt(3)/3*2*R, 2)-np.power(X_23, 2)-np.power(Y_23, 2))
+
+P_23 = np.transpose(np.array([X_23, Y_23, Z_23]))
 
 ## distance from point 14 to point 22
 
@@ -120,8 +137,9 @@ d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 
 ## equilateral triangle of side length 'd'
 
-Tri_d = np.array([])
-# np.array를 통해서 [x,y] 좌표가 묶인 array를 생성 후 plt.Polygon 함수를 통해 삼각형 그리기.
+
+
+## np.array를 통해서 [x,y] 좌표가 묶인 array를 생성 후 plt.Polygon 함수를 통해 삼각형 그리기.
 
 ## estimating ellipsoid equation
 
@@ -139,5 +157,20 @@ plt.legend(['Point 24', 'Point 23'])
 plt.figure(2)
 plt.plot(alpha_1d, Z_24)
 plt.plot(alpha_1d, Z_23)
+
+plt.figure(3)
+triangles = [[0, 1, 2]]
+triang = np.array([])
+Triang = np.array([])
+for i in range (18):
+    triang = mtri.Triangulation([P_22[100*i, 0], P_24[100*i, 0], P_14[100*i, 0]],
+                                   [P_22[100*i, 1], P_24[100*i, 1], P_14[100*i, 1]], triangles)
+    Triang = np.append(Triang, triang)
+
+for i in range (18):
+    plt.triplot(Triang[i,], c=viridis(i/18))
+
+## Point 24, 22, 14의 위치를 원점이 Point 23이 기준이 되도록 이동시킨다.
+##
 
 plt.show()
