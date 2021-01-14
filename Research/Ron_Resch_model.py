@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.tri as mtri
 from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 ## colormap setting
@@ -135,13 +136,21 @@ P_23 = np.transpose(np.array([X_23, Y_23, Z_23]))
 
 d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 
-## equilateral triangle of side length 'd'
-
-
-
 ## np.array를 통해서 [x,y] 좌표가 묶인 array를 생성 후 plt.Polygon 함수를 통해 삼각형 그리기.
 
 ## estimating ellipsoid equation
+
+A = np.sqrt(np.power(X_23, 2) + np.power(Y_23, 2))
+B = A
+C = np.power(Z_14, 2)*np.power(A, 2)/(X_15*X_23 + 2*Y_14*Y_23 - (np.power(X_15, 2))/4 - (np.power(Y_14, 2)))
+
+print(A)
+print(C)
+
+u = np.linspace(0.0, 2.0*np.pi, 60)
+v = np.linspace(0.0, 1.0/2.0*np.pi, 30)
+
+
 
 ## plot
 plt.figure(1)
@@ -154,9 +163,9 @@ plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel('X position [mm]')
 plt.legend(['Point 24', 'Point 23'])
 
-plt.figure(2)
-plt.plot(alpha_1d, Z_24)
-plt.plot(alpha_1d, Z_23)
+# plt.figure(2)
+# plt.plot(alpha_1d, Z_24)
+# plt.plot(alpha_1d, Z_23)
 
 plt.figure(3)
 triangles = [[0, 1, 2]]
@@ -172,5 +181,14 @@ for i in range (18):
 
 ## Point 24, 22, 14의 위치를 원점이 Point 23이 기준이 되도록 이동시킨다.
 ##
+
+plt.figure(4)
+x = A[100, ]*np.outer(np.cos(u), np.sin(v))
+y = B[100, ]*np.outer(np.sin(u), np.sin(v))
+z = C[100, ]*np.outer(np.ones_like(u), np.cos(v))
+ax = Axes3D(plt.figure(4))
+ax.plot_surface(x, y, z, cmap='plasma', alpha=0.5)
+ax.set_zlim(0, 20)
+
 
 plt.show()
