@@ -8,6 +8,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 ## colormap setting
 viridis = cm.get_cmap('viridis', 18)
 
+
 ## input variables
 alpha_1 = np.arange(0*np.pi, np.pi,  np.pi/1800)
 alpha_1 = np.append(alpha_1,np.pi)
@@ -143,25 +144,22 @@ d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 A = np.sqrt(np.power(X_23, 2) + np.power(Y_23, 2))
 B = A
 C = np.power(Z_14, 2)*np.power(A, 2)/(X_15*X_23 + 2*Y_14*Y_23 - (np.power(X_15, 2))/4 - (np.power(Y_14, 2)))
-
-print(A)
-print(C)
-
+6
 u = np.linspace(0.0, 2.0*np.pi, 60)
 v = np.linspace(0.0, 1.0/2.0*np.pi, 30)
-
+t = np.linspace(0.0, np.pi, 30)
 
 
 ## plot
-plt.figure(1)
-plt.plot(alpha_1d, X_24)
-plt.plot(alpha_1d, X_23)
-plt.xlim(0,63)
-plt.ylim(20,32)
-plt.grid(True)
-plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
-plt.ylabel('X position [mm]')
-plt.legend(['Point 24', 'Point 23'])
+# plt.figure(1)
+# plt.plot(alpha_1d, X_24)
+# plt.plot(alpha_1d, X_23)
+# plt.xlim(0,63)
+# plt.ylim(20,32)
+# plt.grid(True)
+# plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+# plt.ylabel('X position [mm]')
+# plt.legend(['Point 24', 'Point 23'])
 
 # plt.figure(2)
 # plt.plot(alpha_1d, Z_24)
@@ -187,8 +185,38 @@ x = A[100, ]*np.outer(np.cos(u), np.sin(v))
 y = B[100, ]*np.outer(np.sin(u), np.sin(v))
 z = C[100, ]*np.outer(np.ones_like(u), np.cos(v))
 ax = Axes3D(plt.figure(4))
-ax.plot_surface(x, y, z, cmap='plasma', alpha=0.5)
-ax.set_zlim(0, 20)
+ax.plot_surface(x, y, z, cmap='plasma', alpha=0.4)
+ax.set_zlim(0, 30)
 
+plt.figure(5)
+x = A[300, ]*np.outer(np.cos(u), np.sin(v))
+y = B[300, ]*np.outer(np.sin(u), np.sin(v))
+z = C[300, ]*np.outer(np.ones_like(u), np.cos(v))
+ax = Axes3D(plt.figure(5))
+ax.plot_surface(x, y, z, cmap='viridis', alpha=0.4)
+ax.set_zlim(0, 30)
+
+plt.figure(6)
+xx1 = A[100, ]*np.cos(t)
+yy1 = C[100, ]*np.sin(t)
+xx2 = A[200, ]*np.cos(t)
+yy2 = C[200, ]*np.sin(t)
+xx3 = A[300, ]*np.cos(t)
+yy3 = C[300, ]*np.sin(t)
+xx4 = A[400, ]*np.cos(t)
+yy4 = C[400, ]*np.sin(t)
+xx5 = A[500, ]*np.cos(t)
+yy5 = C[500, ]*np.sin(t)
+xx6 = A[600, ]*np.cos(t)
+yy6 = C[600, ]*np.sin(t)
+plt.plot(xx1, yy1)
+plt.plot(xx2, yy2)
+plt.plot(xx3, yy3)
+plt.plot(xx4, yy4)
+plt.plot(xx5, yy5)
+plt.plot(xx6, yy6)
+plt.xlim(-40,40)
+plt.ylim(0,40)
+plt.grid(color='lightgray', linestyle='--')
 
 plt.show()
