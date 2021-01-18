@@ -178,6 +178,8 @@ for i in range(1801):
     k24 = curvature(A[i, ], C[i, ], X_24[i, ], Z_24[i, ])
     k_p24 = np.append(k_p24, k24)
 
+radius_p24 = 1./k_p24
+
 print(k_p24.shape)
 print(k_p13.shape)
 print(X_13.shape)
@@ -187,34 +189,40 @@ print(alpha_1d.shape)
 # plt.figure(1)
 # plt.plot(alpha_1d, X_24)
 # plt.plot(alpha_1d, X_23)
-# plt.xlim(0,63)
-# plt.ylim(20,32)
+# plt.xlim(0,180)
+# plt.ylim(20, 40)
 # plt.grid(True)
 # plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 # plt.ylabel('X position [mm]')
 # plt.legend(['Point 24', 'Point 23'])
 
-# plt.figure(2)
-# plt.plot(alpha_1d, Z_24)
-# plt.plot(alpha_1d, Z_23)
-#
-# plt.figure(3)
-# triangles = [[0, 1, 2]]
-# triang = np.array([])
-# Triang = np.array([])
-# for i in range (18):
-#     triang = mtri.Triangulation([P_22[100*i, 0], P_24[100*i, 0], P_14[100*i, 0]],
-#                                    [P_22[100*i, 1], P_24[100*i, 1], P_14[100*i, 1]], triangles)
-#     Triang = np.append(Triang, triang)
-#
-# for i in range (18):
-#     plt.triplot(Triang[i,], c=viridis(i/18))
-#
-# plt.grid(color='lightgray', linestyle='--')
-# plt.xlabel('x position')
-# plt.ylabel('y position')
-#
-## Point 24, 22, 14의 위치를 원점이 Point 23이 기준이 되도록 이동시킨다.
+plt.figure(2)
+plt.plot(alpha_1d, Z_24)
+plt.plot(alpha_1d, Z_23)
+plt.xlim(0,180)
+# plt.ylim(20, 40)
+plt.grid(True)
+plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+plt.ylabel('Z position [mm]')
+plt.legend(['Point 24', 'Point 23'])
+
+plt.figure(3)
+triangles = [[0, 1, 2]]
+triang = np.array([])
+Triang = np.array([])
+for i in range (18):
+    triang = mtri.Triangulation([P_22[100*i, 0], P_24[100*i, 0], P_14[100*i, 0]],
+                                   [P_22[100*i, 1], P_24[100*i, 1], P_14[100*i, 1]], triangles)
+    Triang = np.append(Triang, triang)
+
+for i in range (18):
+    plt.triplot(Triang[i,], c=viridis(i/18))
+
+plt.grid(color='lightgray', linestyle='--')
+plt.xlabel('x position')
+plt.ylabel('y position')
+
+# Point 24, 22, 14의 위치를 원점이 Point 23이 기준이 되도록 이동시킨다.
 
 plt.figure(4)
 x = A[100, ]*np.outer(np.cos(u), np.sin(v))
@@ -256,9 +264,17 @@ plt.grid(color='lightgray', linestyle='--')
 plt.figure(7)
 plt.plot(alpha_1d, k_p24, color='r')
 plt.xlabel(r'Dihedral angle, $\alpha_1$ [$\degree$]')
-plt.ylabel(r'Radius of curvature, $\kappa$ [1/mm]')
+plt.ylabel(r'Curvature, $\kappa$ [1/mm]')
 plt.grid(color='lightgray', linestyle='--')
 plt.xlim(0, 180)
 plt.ylim(0, 0.16)
+
+plt.figure(8)
+plt.plot(alpha_1d, radius_p24, color='r')
+plt.xlabel(r'Dihedral angle, $\alpha_1$ [$\degree$]')
+plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
+plt.grid(color='lightgray', linestyle='--')
+plt.xlim(0, 180)
+plt.ylim(0, 100)
 
 plt.show()
