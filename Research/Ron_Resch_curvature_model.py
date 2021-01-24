@@ -148,8 +148,43 @@ d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 l = np.sqrt(np.power(X_24 - X_13, 2) + np.power(Y_24 - Y_13, 2)) # length between point 13 and point 24 in xy plane
 h = Z_24
 L = np.sqrt(np.power(l, 2) + np.power(h, 2))
+print(L[100,])
 beta = np.arcsin(h/L)
 beta_d = np.rad2deg(beta)
+
+lprime = np.sqrt(np.power(X_23 - X_13, 2) + np.power(Y_23 - Y_13, 2)) # length between point 13 and point 23 in xy plane
+hprime = Z_23
+Lprime = np.sqrt(np.power(lprime, 2) + np.power(hprime, 2))
+gamma = np.arcsin(hprime/Lprime)
+gamma_d = np.rad2deg(gamma)
+
+mu = np.pi/2. - 2.*eta - gamma
+mu_d = np.rad2deg(mu)
+
+muprime = np.pi/2 + eta - mu - gamma
+muprime_d = np.rad2deg(muprime)
+
+## In 2 unit module
+X_0 = np.zeros(1801,)
+Y_0 = np.zeros(1801,)
+
+X_1 = L*np.cos(np.pi+muprime)
+Y_1 = L*np.sin(np.pi+muprime)
+
+X_2 = L*np.cos(beta)
+Y_2 = L*np.sin(beta)
+
+X_3 = L*np.cos(beta) + L*np.cos(2.*np.pi - (np.pi/2. - mu - gamma - beta))
+Y_3 = L*np.sin(beta) + L*np.sin(2.*np.pi - (np.pi/2. - mu - gamma - beta))
+
+X_deg = np.array([])
+Y_deg = np.array([])
+for i in range(1801):
+    X_deg = np.append(X_deg, [X_1[i,], X_0[i,], X_2[i,], X_3[i,]])
+    Y_deg = np.append(Y_deg, [Y_1[i,], Y_0[i,], Y_2[i,], Y_3[i,]])
+
+X_deg = np.reshape(X_deg, [1801, 4])
+Y_deg = np.reshape(Y_deg, [1801, 4])
 
 ## experimental result
 
@@ -164,5 +199,9 @@ axs[1].set_ylabel(r'$\beta$ [$\degree$]')
 axs[1].set_xlim(0,180)
 
 plt.figure(2)
-
+plt.plot(X_deg[100,], Y_deg[100,], 'k-o')
+plt.plot(X_deg[400,], Y_deg[400,], 'b-o')
+plt.plot(X_deg[700,], Y_deg[700,], 'r-o')
+plt.xlim([-80,80])
+plt.ylim([-80,80])
 plt.show()
