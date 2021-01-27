@@ -190,6 +190,8 @@ zeta_d = np.rad2deg(zeta)
 
 r = L/(2.*np.sin(zeta/2.))
 
+H = h + L*np.sin(beta + muprime)
+
 ## experimental result
 
 ## plot
@@ -278,6 +280,13 @@ plt.xlim([0,180])
 # plt.ylim([0,300])
 plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel(r'Curvature, $\kappa$ [1/mm]')
+plt.grid(color='lightgray',linestyle='--')
+
+plt.figure(9)
+plt.plot(alpha_1d, H, color='b')
+plt.xlim([0,180])
+plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+plt.ylabel(r'H [mm]')
 plt.grid(color='lightgray',linestyle='--')
 
 plt.show()
