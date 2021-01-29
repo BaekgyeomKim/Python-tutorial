@@ -140,7 +140,7 @@ P_23 = np.transpose(np.array([X_23, Y_23, Z_23]))
 
 d = np.sqrt(np.power(X_14 - X_22, 2) + np.power(Y_14 - Y_22, 2))
 
-## Estimating global curvature
+## Calculating global curvature
 
 l = np.sqrt(np.power(X_24 - X_13, 2) + np.power(Y_24 - Y_13, 2)) # length between point 13 and point 24 in xy plane
 h = Z_24
@@ -191,9 +191,183 @@ H = h + L*np.sin(beta + muprime)
 
 ## experimental result
 
-alpha_1e = np.array([31.3, 45.05, 67, 86.15, 94.75])
-L_e = np.array([29.68, 31.67, 34.06, 35.39, 36.50])
-H_e = np.array([16.06, 24.94, 33.04, 37, 40.03])
+alpha_1e = np.array([31.3,
+33.35,
+38.65,
+45.05,
+52.55,
+60.1,
+67,
+73.1,
+78.4,
+86.15,
+87.7,
+91.5,
+94.75])
+L_e = np.array([29.68,
+29.71333333,
+30.70333333,
+31.66666667,
+32.63333333,
+33.46666667,
+34.05666667,
+34.58333333,
+34.95,
+35.39,
+35.84666667,
+36.17666667,
+36.49666667])
+H_e = np.array([16.05601311,
+17.99566269,
+21.09900475,
+24.94449615,
+28.75326157,
+31.20499611,
+33.04292679,
+34.65977669,
+35.75088501,
+36.99892998,
+38.19879532,
+39.210186,
+40.03190994])
+
+## Estimating experimental radius of curvature from 3 ponits
+
+def define_circle(p1, p2, p3):
+    """
+    Returns the center and radius of the circle passing the given 3 points.
+    In case the 3 points form a line, returns (None, infinity).
+    """
+    temp = p2[0] * p2[0] + p2[1] * p2[1]
+    bc = (p1[0] * p1[0] + p1[1] * p1[1] - temp) / 2
+    cd = (temp - p3[0] * p3[0] - p3[1] * p3[1]) / 2
+    det = (p1[0] - p2[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p2[1])
+
+    if abs(det) < 1.0e-6:
+        return (None, np.inf)
+
+    # Center of circle
+    cx = (bc*(p2[1] - p3[1]) - cd*(p1[1] - p2[1])) / det
+    cy = ((p1[0] - p2[0]) * cd - (p2[0] - p3[0]) * bc) / det
+
+    radius = np.sqrt((cx - p1[0])**2 + (cy - p1[1])**2)
+    return ((cx, cy))
+
+def define_radius(p1, p2, p3):
+    """
+    Returns the center and radius of the circle passing the given 3 points.
+    In case the 3 points form a line, returns (None, infinity).
+    """
+    temp = p2[0] * p2[0] + p2[1] * p2[1]
+    bc = (p1[0] * p1[0] + p1[1] * p1[1] - temp) / 2
+    cd = (temp - p3[0] * p3[0] - p3[1] * p3[1]) / 2
+    det = (p1[0] - p2[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p2[1])
+
+    if abs(det) < 1.0e-6:
+        return (None, np.inf)
+
+    # Center of circle
+    cx = (bc*(p2[1] - p3[1]) - cd*(p1[1] - p2[1])) / det
+    cy = ((p1[0] - p2[0]) * cd - (p2[0] - p3[0]) * bc) / det
+
+    radius = np.sqrt((cx - p1[0])**2 + (cy - p1[1])**2)
+    return (radius)
+
+p1e = np.array([[3.037999868,	0.495697021],
+[2.995604992,	0.527683258],
+[2.979025364,	0.631112099],
+[2.931902647,	0.733244896],
+[2.89221406,	0.836886406],
+[2.881969213,	0.897356987],
+[2.855140924,	0.943962097],
+[2.851706028,	0.987566948],
+[2.840724707,	1.006403923],
+[2.832406521,	1.024513245],
+[2.822229147,	1.076031685],
+[2.81193161,	1.111216545],
+[2.810563564,	1.120436668],
+[2.806183338,	1.149080276],
+[2.805825233,	1.154829979],
+[2.784357548,	1.240891457],
+[2.838300705,	1.418513298]])
+
+p2e = np.array([[5.83714819,	1.341182709],
+[5.797153473,	1.529578209],
+[5.788204193,	1.848707199],
+[5.777799606,	2.214751244],
+[5.765233994,	2.553671837],
+[5.744220734,	2.823997498],
+[5.740748405,	2.992624283],
+[5.733437061,	3.138293266],
+[5.724719048,	3.236223221],
+[5.713824749,	3.359333992],
+[5.706037521,	3.490119934],
+[5.694528103,	3.59535408],
+[5.701432228,	3.669248581],
+[5.698060513,	3.745384216],
+[5.686403275,	3.769284248],
+[5.670907974,	3.990921974],
+[5.664134502,	4.239214897]])
+
+p3e = np.array([[8.877485275,	1.610573769],
+[8.887722015,	1.801017761],
+[8.93182373,	2.113115311],
+[9.012430191,	2.502466202],
+[9.10067749,	2.86907196],
+[9.162157059,	3.120157242],
+[9.234647751,	3.319374084],
+[9.257892609,	3.474018097],
+[9.289382935,	3.574407578],
+[9.345821381,	3.699581146],
+[9.389957428,	3.830252647],
+[9.422445297,	3.922448158],
+[9.437236786,	3.999513626],
+[9.458095551,	4.05824852],
+[9.463552475,	4.095202446],
+[9.538249969,	4.264276505],
+[9.601423264,	4.429745674]])
+
+p4e = np.array([[11.73315239,	1.000481606],
+[11.73799324,	1.096414566],
+[11.77360725,	1.277734756],
+[11.86175919,	1.476798058],
+[11.94824982,	1.669686317],
+[12.02696228,	1.811555862],
+[12.08072472,	1.891882896],
+[12.11910248,	1.974629402],
+[12.13714027,	2.00561142],
+[12.18409538,	2.080513],
+[12.21587563,	2.12437439],
+[12.2367363,	2.191608429],
+[12.254076,	2.222265244],
+[12.27982903,	2.254387856],
+[12.2599926,	2.264775276],
+[12.34326363,	2.351155281],
+[12.37980652,	2.433231354]])
+
+CxCy1 = np.array([])
+CxCy2 = np.array([])
+radius1e = np.array([])
+radius2e = np.array([])
+
+for i in range(13):
+    CxCy1 = np.append(CxCy1, define_circle(p1e[i,],p2e[i,],p3e[i,]))
+    CxCy2 = np.append(CxCy2, define_circle(p2e[i,],p3e[i,],p4e[i,]))
+    radius1e = np.append(radius1e, define_radius(p1e[i,],p2e[i,],p3e[i,]))
+    radius2e = np.append(radius2e, define_radius(p2e[i,],p3e[i,],p4e[i,]))
+
+
+CxCy1 = 10.*CxCy1
+CxCy2 = 10.*CxCy2
+radius1e = 10.*radius1e
+radius2e = 10.*radius2e
+
+
+print(CxCy1)
+print(radius1e)
+
+radius_avg = (radius1e + radius2e)/2.
+print(radius_avg.shape)
 
 ## plot
 # fig, axs = plt.subplots(2)
@@ -208,20 +382,20 @@ H_e = np.array([16.06, 24.94, 33.04, 37, 40.03])
 # axs[1].set_xlim(0,180)
 # axs[1].grid(color='lightgray',linestyle='--')
 #
-# fig, axs = plt.subplots(2)
-# fig.suptitle(r'Side lenght (d) and out-of-plane deformation of points')
-# axs[0].plot(alpha_1d, d, color='k')
-# axs[0].set_ylabel(r'Side length (d) [mm]')
-# axs[0].set_xlim(0,180)
-# axs[0].grid(color='lightgray',linestyle='--')
-# axs[1].plot(alpha_1d, Z_24, color='r', label=r'$A_n$')
-# axs[1].plot(alpha_1d, Z_13, color='gold', label=r'$B_n$')
-# axs[1].plot(alpha_1d, Z_23, color='yellowgreen', label=r'C')
-# axs[1].legend(fancybox=True)
-# axs[1].set_xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
-# axs[1].set_ylabel('Out-of-plane deformation [mm]')
-# axs[1].set_xlim(0,180)
-# axs[1].grid(color='lightgray',linestyle='--')
+fig, axs = plt.subplots(2)
+fig.suptitle(r'Side lenght (d) and out-of-plane deformation of points')
+axs[0].plot(alpha_1d, d, color='k')
+axs[0].set_ylabel(r'Side length (d) [mm]')
+axs[0].set_xlim(0,180)
+axs[0].grid(color='lightgray',linestyle='--')
+axs[1].plot(alpha_1d, Z_24, color='r', label=r'$A_n$')
+axs[1].plot(alpha_1d, Z_13, color='gold', label=r'$B_n$')
+axs[1].plot(alpha_1d, Z_23, color='yellowgreen', label=r'C')
+axs[1].legend(fancybox=True)
+axs[1].set_xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+axs[1].set_ylabel('Out-of-plane deformation [mm]')
+axs[1].set_xlim(0,180)
+axs[1].grid(color='lightgray',linestyle='--')
 #
 # fig, axs = plt.subplots(2)
 # fig.suptitle('Parameters in cross-section plane for estimating curvature')
@@ -302,7 +476,15 @@ plt.ylabel(r'H [mm]')
 plt.legend(['Model', 'Experiment'])
 plt.grid(color='lightgray',linestyle='--')
 
-
+plt.figure(11)
+plt.plot(alpha_1d, r, color='r')
+plt.plot(alpha_1e, radius_avg, 'r--o')
+plt.xlim([0,180])
+plt.ylim([0,300])
+plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
+plt.legend(['Model', 'Experiment'])
+plt.grid(color='lightgray',linestyle='--')
 
 plt.show()
 
@@ -313,3 +495,5 @@ plt.show()
 # d_data.to_csv("d.csv", header=False, index=False, encoding='utf-8')
 # D_data = pd.DataFrame(X_15)
 # D_data.to_csv("D.csv", header=False, index=False, encoding='utf-8')
+# Z_24_data = pd.DataFrame(Z_24)
+# Z_24_data.to_csv("Z_24.csv", header=False, index=False, encoding='utf-8')
