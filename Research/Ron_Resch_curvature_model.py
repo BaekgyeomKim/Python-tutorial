@@ -21,7 +21,7 @@ alpha_2d = np.rad2deg(alpha_2)
 # print(alpha_1.shape)
 # print(alpha_2.shape)
 
-R = 25.
+R = 25
 # print(type(R))
 
 y = np.sin(alpha_1)
@@ -202,8 +202,21 @@ alpha_1e = np.array([31.3,
 78.4,
 86.15,
 87.7,
-91.5,
-94.75])
+])
+
+alpha_1e2 = np.array([24.6,
+26.25,
+31.8,
+37.2,
+43.65,
+49.55,
+54.35,
+58.6,
+62.9,
+66.1,
+78.25
+])
+
 L_e = np.array([29.68,
 29.71333333,
 30.70333333,
@@ -214,9 +227,8 @@ L_e = np.array([29.68,
 34.58333333,
 34.95,
 35.39,
-35.84666667,
-36.17666667,
-36.49666667])
+35.84666667
+])
 H_e = np.array([16.05601311,
 17.99566269,
 21.09900475,
@@ -227,9 +239,7 @@ H_e = np.array([16.05601311,
 34.65977669,
 35.75088501,
 36.99892998,
-38.19879532,
-39.210186,
-40.03190994])
+38.19879532])
 
 ## Estimating experimental radius of curvature from 3 ponits
 
@@ -283,13 +293,7 @@ p1e = np.array([[3.037999868,	0.495697021],
 [2.851706028,	0.987566948],
 [2.840724707,	1.006403923],
 [2.832406521,	1.024513245],
-[2.822229147,	1.076031685],
-[2.81193161,	1.111216545],
-[2.810563564,	1.120436668],
-[2.806183338,	1.149080276],
-[2.805825233,	1.154829979],
-[2.784357548,	1.240891457],
-[2.838300705,	1.418513298]])
+[2.822229147,	1.076031685]])
 
 p2e = np.array([[5.83714819,	1.341182709],
 [5.797153473,	1.529578209],
@@ -301,13 +305,7 @@ p2e = np.array([[5.83714819,	1.341182709],
 [5.733437061,	3.138293266],
 [5.724719048,	3.236223221],
 [5.713824749,	3.359333992],
-[5.706037521,	3.490119934],
-[5.694528103,	3.59535408],
-[5.701432228,	3.669248581],
-[5.698060513,	3.745384216],
-[5.686403275,	3.769284248],
-[5.670907974,	3.990921974],
-[5.664134502,	4.239214897]])
+[5.706037521,	3.490119934]])
 
 p3e = np.array([[8.877485275,	1.610573769],
 [8.887722015,	1.801017761],
@@ -319,13 +317,7 @@ p3e = np.array([[8.877485275,	1.610573769],
 [9.257892609,	3.474018097],
 [9.289382935,	3.574407578],
 [9.345821381,	3.699581146],
-[9.389957428,	3.830252647],
-[9.422445297,	3.922448158],
-[9.437236786,	3.999513626],
-[9.458095551,	4.05824852],
-[9.463552475,	4.095202446],
-[9.538249969,	4.264276505],
-[9.601423264,	4.429745674]])
+[9.389957428,	3.830252647]])
 
 p4e = np.array([[11.73315239,	1.000481606],
 [11.73799324,	1.096414566],
@@ -337,20 +329,14 @@ p4e = np.array([[11.73315239,	1.000481606],
 [12.11910248,	1.974629402],
 [12.13714027,	2.00561142],
 [12.18409538,	2.080513],
-[12.21587563,	2.12437439],
-[12.2367363,	2.191608429],
-[12.254076,	2.222265244],
-[12.27982903,	2.254387856],
-[12.2599926,	2.264775276],
-[12.34326363,	2.351155281],
-[12.37980652,	2.433231354]])
+[12.21587563,	2.12437439]])
 
 CxCy1 = np.array([])
 CxCy2 = np.array([])
 radius1e = np.array([])
 radius2e = np.array([])
 
-for i in range(13):
+for i in range(11):
     CxCy1 = np.append(CxCy1, define_circle(p1e[i,],p2e[i,],p3e[i,]))
     CxCy2 = np.append(CxCy2, define_circle(p2e[i,],p3e[i,],p4e[i,]))
     radius1e = np.append(radius1e, define_radius(p1e[i,],p2e[i,],p3e[i,]))
@@ -459,31 +445,34 @@ axs[1].grid(color='lightgray',linestyle='--')
 
 plt.figure(9)
 plt.plot(alpha_1d, L, color='b')
-plt.plot(alpha_1e, L_e, 'b--o')
-plt.xlim([0,180])
+plt.plot(alpha_1e, L_e, 'k--o')
+plt.plot(alpha_1e2, L_e, 'b--o')
+plt.xlim([0,100])
 plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel(r'L [mm]')
-plt.legend(['Model', 'Experiment'])
+plt.legend(['Model', 'Experiment1', 'Experiment2'])
 plt.grid(color='lightgray',linestyle='--')
 
 
 plt.figure(10)
 plt.plot(alpha_1d, H, color='r')
-plt.plot(alpha_1e, H_e, 'r--o')
-plt.xlim([0,180])
+plt.plot(alpha_1e, H_e, 'k--o')
+plt.plot(alpha_1e2, H_e, 'r--o')
+plt.xlim([0,100])
 plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel(r'H [mm]')
-plt.legend(['Model', 'Experiment'])
+plt.legend(['Model', 'Experiment1', 'Experiment2'])
 plt.grid(color='lightgray',linestyle='--')
 
 plt.figure(11)
 plt.plot(alpha_1d, r, color='r')
-plt.plot(alpha_1e, radius_avg, 'r--o')
-plt.xlim([0,180])
+plt.plot(alpha_1e, radius_avg, 'k--o')
+plt.plot(alpha_1e2, radius_avg, 'r--o')
+plt.xlim([0,100])
 plt.ylim([0,300])
 plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
-plt.legend(['Model', 'Experiment'])
+plt.legend(['Model', 'Experiment1', 'Experiment2'])
 plt.grid(color='lightgray',linestyle='--')
 
 plt.show()
