@@ -355,6 +355,112 @@ print(radius1e)
 radius_avg = (radius1e + radius2e)/2.
 print(radius_avg.shape)
 
+## Experiment result (pressure)
+pressure = np.array([5,
+                     10,
+                     15,
+                     20,
+                     25,
+                     30,
+                     35,
+                     40])
+print(pressure)
+
+pressure_p1 = np.array([[36.761,	37.775],
+[36.339,	38.881],
+[35.746,	40.32],
+[35.489,	41.255],
+[35.404,	41.761],
+[35.237,	42.866],
+[35.316,	44.051],
+[35.483,	44.899]])
+pressure_p2 = np.array([[60,	47.104],
+[59.831,	51.005],
+[59.746,	56.263],
+[59.661,	59.912],
+[59.743,	61.094],
+[59.828,	64.15],
+[60.003,	67.288],
+[60,	68.049]])
+pressure_p3 = np.array([[85.951,	51.766],
+[86.886,	56.263],
+[88.241,	61.521],
+[89.595,	65.425],
+[90.024,	66.782],
+[91.039,	68.989],
+[92.144,	71.107],
+[92.984,	72.461]])
+pressure_p4 = np.array([[109.699,	45.408],
+[110.884,	47.955],
+[112.492,	50.751],
+[113.682,	52.447],
+[114.191,	53.043],
+[115.037,	54.058],
+[115.802,	54.821],
+[115.845,	54.765]])
+
+pressure_radius1e = np.array([])
+pressure_radius2e = np.array([])
+
+for i in range(8):
+    pressure_radius1e = np.append(pressure_radius1e, define_radius(pressure_p1[i,],pressure_p2[i,],pressure_p3[i,]))
+    pressure_radius2e = np.append(pressure_radius2e, define_radius(pressure_p2[i,],pressure_p3[i,],pressure_p4[i,]))
+
+pressure_radius_avg = (pressure_radius1e + pressure_radius2e)/2.
+
+pressure_delta_h = np.array([1.702394737,
+6.199394737,
+10.35139474,
+14.59539474,
+15.44539474,
+19.60039474,
+19.00539474,
+23.92039474])
+
+## Experiment result (frequency)
+
+frequency = np.array([0.25,
+                      0.5,
+                      1,
+                      2.5,
+                      5])
+
+frequency_p1 = np.array([[35.226,	42.194],
+[35.395,	41.521],
+[35.568,	40.586],
+[35.989,	39.744],
+[36.246,	38.89]])
+frequency_p2 = np.array([[59.644,	61.952],
+[59.732,	59.748],
+[59.732,	56.611],
+[59.896,	52.965],
+[60.073,	50.003]])
+frequency_p3 = np.array([[90.421,	67.466],
+[89.576,	65.171],
+[88.474,	61.613],
+[87.2,	57.628],
+[86.185,	54.237]])
+frequency_p4 = np.array([[114.162,	53.389],
+[113.229,	52.287],
+[112.132,	50.591],
+[111.027,	48.723],
+[110.179,	46.775]])
+
+frequency_radius1e = np.array([])
+frequency_radius2e = np.array([])
+
+for i in range(5):
+    frequency_radius1e = np.append(frequency_radius1e, define_radius(frequency_p1[i,],frequency_p2[i,],frequency_p3[i,]))
+    frequency_radius2e = np.append(frequency_radius2e, define_radius(frequency_p2[i,],frequency_p3[i,],frequency_p4[i,]))
+
+frequency_radius_avg = (frequency_radius1e + frequency_radius2e)/2.
+
+frequency_delta_h = np.array([17.299,
+12.037,
+9.326,
+7.376,
+3.644])
+
 ## plot
 # fig, axs = plt.subplots(2)
 # fig.suptitle(r'$\theta$ and $\eta$ by dihedral angle $\alpha_1$')
@@ -466,13 +572,45 @@ plt.grid(color='lightgray',linestyle='--')
 
 plt.figure(11)
 plt.plot(alpha_1d, r, color='r')
-plt.plot(alpha_1e, radius_avg, 'k--o')
+# plt.plot(alpha_1e, radius_avg, 'r--o')
 plt.plot(alpha_1e2, radius_avg, 'r--o')
 plt.xlim([0,180])
 plt.ylim([0,300])
 plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
 plt.legend(['Model', 'Experiment1', 'Experiment2'])
+plt.grid(color='lightgray',linestyle='--')
+
+plt.figure(12)
+plt.plot(pressure, pressure_radius_avg, 'r--o')
+plt.xlim([0,45])
+plt.ylim([40,100])
+plt.xlabel('Inner pressure [kPa]')
+plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
+plt.grid(color='lightgray',linestyle='--')
+
+plt.figure(13)
+plt.plot(frequency, frequency_radius_avg, 'r--o')
+plt.xlim([0,5])
+plt.ylim([40,100])
+plt.xlabel('Actuation frequency [Hz]')
+plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
+plt.grid(color='lightgray',linestyle='--')
+
+plt.figure(14)
+plt.plot(pressure, pressure_delta_h, 'k--o')
+plt.xlim([0,45])
+plt.ylim([0,30])
+plt.xlabel('Inner pressure [kPa]')
+plt.ylabel(r'Displacement, $\delta$H [mm]')
+plt.grid(color='lightgray',linestyle='--')
+
+plt.figure(15)
+plt.plot(frequency, frequency_delta_h, 'k--o')
+plt.xlim([0,5])
+plt.ylim([0,30])
+plt.xlabel('Actuation frequency [Hz]')
+plt.ylabel(r'Displacement, $\delta$H [mm]')
 plt.grid(color='lightgray',linestyle='--')
 
 plt.show()
