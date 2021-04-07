@@ -366,38 +366,38 @@ pressure = np.array([5,
                      40])
 print(pressure)
 
-pressure_p1 = np.array([[36.761,	37.775],
-[36.339,	38.881],
-[35.746,	40.32],
-[35.489,	41.255],
-[35.404,	41.761],
-[35.237,	42.866],
-[35.316,	44.051],
-[35.483,	44.899]])
-pressure_p2 = np.array([[60,	47.104],
-[59.831,	51.005],
-[59.746,	56.263],
-[59.661,	59.912],
-[59.743,	61.094],
-[59.828,	64.15],
-[60.003,	67.288],
-[60,	68.049]])
-pressure_p3 = np.array([[85.951,	51.766],
-[86.886,	56.263],
-[88.241,	61.521],
-[89.595,	65.425],
-[90.024,	66.782],
-[91.039,	68.989],
-[92.144,	71.107],
-[92.984,	72.461]])
-pressure_p4 = np.array([[109.699,	45.408],
-[110.884,	47.955],
-[112.492,	50.751],
-[113.682,	52.447],
-[114.191,	53.043],
-[115.037,	54.058],
-[115.802,	54.821],
-[115.845,	54.765]])
+pressure_p1 = np.array([[36.761,	37.865],
+[36.339,	38.971],
+[35.746,	40.41],
+[35.489,	41.345],
+[35.404,	41.851],
+[35.237,	42.956],
+[35.316,	44.141],
+[35.483,	44.989]])
+pressure_p2 = np.array([[60,	47.194],
+[59.831,	51.095],
+[59.746,	56.353],
+[59.661,	60.002],
+[59.743,	61.184],
+[59.828,	64.24],
+[60.003,	67.378],
+[60,	68.139]])
+pressure_p3 = np.array([[85.951,	51.856],
+[86.886,	56.353],
+[88.241,	61.611],
+[89.595,	65.515],
+[90.024,	66.872],
+[91.039,	69.079],
+[92.144,	71.197],
+[92.984,	72.551]])
+pressure_p4 = np.array([[109.699,	45.498],
+[110.884,	48.045],
+[112.492,	50.841],
+[113.682,	52.537],
+[114.191,	53.133],
+[115.037,	54.148],
+[115.802,	54.911],
+[115.845,	54.855]])
 
 pressure_radius1e = np.array([])
 pressure_radius2e = np.array([])
@@ -408,14 +408,14 @@ for i in range(8):
 
 pressure_radius_avg = (pressure_radius1e + pressure_radius2e)/2.
 
-pressure_delta_h = np.array([1.702394737,
-6.199394737,
-10.35139474,
-14.59539474,
-15.44539474,
-19.60039474,
-19.00539474,
-23.92039474])
+pressure_delta_h = np.array([1.612,
+6.109,
+11.367,
+15.271,
+16.628,
+18.835,
+20.953,
+22.307])
 
 ## Experiment result (frequency)
 
@@ -549,17 +549,17 @@ frequency_delta_h = np.array([17.299,
 # plt.ylabel(r'Curvature, $\kappa$ [1/mm]')
 # plt.grid(color='lightgray',linestyle='--')
 
-plt.figure(9)
-plt.plot(alpha_1d, L, color='b')
-plt.plot(alpha_1e, L_e, 'k--o')
-plt.plot(alpha_1e2, L_e, 'b--o')
-plt.xlim([0,180])
-plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
-plt.ylabel(r'L [mm]')
-plt.legend(['Model', 'Experiment1', 'Experiment2'])
-plt.grid(color='lightgray',linestyle='--')
-
-
+# plt.figure(9)
+# plt.plot(alpha_1d, L, color='b')
+# plt.plot(alpha_1e, L_e, 'k--o')
+# plt.plot(alpha_1e2, L_e, 'b--o')
+# plt.xlim([0,180])
+# plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
+# plt.ylabel(r'L [mm]')
+# plt.legend(['Model', 'Experiment1', 'Experiment2'])
+# plt.grid(color='lightgray',linestyle='--')
+#
+#
 plt.figure(10)
 plt.plot(alpha_1d, H, color='r')
 plt.plot(alpha_1e, H_e, 'k--o')
@@ -580,7 +580,7 @@ plt.xlabel(r'Dihedral angle ($\alpha_1$) [$\degree$]')
 plt.ylabel(r'Radius of curvature, $\kappa$ [mm]')
 plt.legend(['Model', 'Experiment1', 'Experiment2'])
 plt.grid(color='lightgray',linestyle='--')
-
+#
 plt.figure(12)
 plt.plot(pressure, pressure_radius_avg, 'r--o')
 plt.xlim([0,45])
